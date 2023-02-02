@@ -4,8 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Mailsetting;
 
 use App\Http\Controllers\TestAttachementController;
+use App\Http\Controllers\LanguageTranslationController;
 
-
+use App\Http\Controllers\LangController;
 
 
 /*
@@ -53,3 +54,24 @@ Route::group(['middleware' => ['auth']], function() {
     });
 });
 
+Route::get('languages', [LanguageTranslationController::class, 'index'])->name('languages');
+
+
+
+Route::post('translations/update', [LanguageTranslationController::class, 'transUpdate'])->name('translation.update.json');
+Route::post('translations/updateKey', [LanguageTranslationController::class, 'transUpdateKey'])->name('translation.update.json.key');
+
+
+
+Route::delete('translations/destroy/{key}', [LanguageTranslationController::class, 'destroy'])->name('translations.destroy');
+
+Route::post('translations/create', [LanguageTranslationController::class, 'store'])->name('translations.create');
+
+Route::get('check-translation', function(){
+	\App::setLocale('fr');
+	
+	dd(__('website'));
+});
+
+Route::get('lang/home', [LangController::class, 'index']);
+Route::get('lang/change', [LangController::class, 'change'])->name('changeLang');
